@@ -320,7 +320,7 @@ bool T_v2(int j, int l, int *tab, int *seq)
 }
 
 /* Coloring the grid following seperate lines and seperates collumns approach */
-// Versions pf Algorithm Annexe 1
+// Versions of Algorithm Annexe 1
 //DEPRECATED
 enum State color_grid_v1(int **main_grid, int n_rows, int n_columns, int **rows, int **columns, int maximum)
 {

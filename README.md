@@ -12,13 +12,13 @@ Notre objectif est double : non seulement développer une méthode efficace et f
 
 ## Instructions
 
-Pour lancer le programme (tests de la fonction T [version 2], implimentation des resolutions sur instances indiques ou encore resolution automatic des instances chosi), il suffit de donner accès au programme d'installation automatique. Voici les instructions :
+Pour démarrer le programme (test de la fonction (T) [version 2], application des résolutions sur des instances spécifiées, ou encore résolution automatique des instances sélectionnées), veuillez suivre les instructions d'installation automatique :
 
-1. Telechargez le repertoire Source Code
-2. Ouvrez une fenêtre du terminal et assurez-vous que vous êtes dans le même répertoire que le code source du projet que vous avez installé
-3. Tappez `chmod 777 run.sh` et exécutez ensuite en faisant `bash run.sh`. Maintenant, il suffit de suivre les instructions sur le terminal et vous pouvez decouvrir les differets fonctionalités.
-4. Tous les instances faut être en format décrit sur le sujet du projet et il faut qu'ils sont sauvegardés sur le repertoire `instances` du Source code.
-5. Pour l'option `auto` il faut avoir déjà placé sur le repertoire instances les instances que vous souhaitez et après il faut ouvrir le fichier `list.txt` et mettre/modifier les nomes des instances que vont être traités.
+1. Téléchargez le dossier "Source Code".
+2. Ouvrez un terminal et naviguez jusqu'au dossier contenant le code source du projet téléchargé.
+3. Saisissez `chmod 777 run.sh` dans le terminal, puis lancez le script avec `bash run.sh`. Suivez simplement les instructions affichées dans le terminal pour explorer les différentes fonctionnalités du programme.
+4. Assurez-vous que toutes les instances soient conformes au format décrit dans le document du projet et qu'elles soient placées dans le dossier `instances` du répertoire Source Code.
+5. Pour l'option `auto`, assurez-vous d'avoir préalablement ajouté les instances désirées dans le dossier `instances`. Ensuite, ouvrez et ajustez le fichier `list.txt` en y inscrivant les noms des instances à traiter.
 
 ## I- Méthode incomplète de résolution
 
@@ -40,20 +40,18 @@ Les cas de base de l'algorithme récursif pour remplir la table **T(j, l)** sont
 
 * **Cas 1: (l = 0) (aucun bloc)**
 
-  * Lorsqu'aucun bloc noir n'est à placer (l = 0), la séquence de blocs est vide. Dans ce cas, peu importe la position j le long de la ligne, la condition pour colorier la ligne jusqu'à la case j en respectant une séquence vide est toujours satisfaite, puisqu'une absence totale de blocs peut toujours être représentée par des cases blanches.
-  * **Conclusion :** T(j, 0) est vrai pour tout j, reflétant la possibilité de remplir toute portion de la grille en blanc sans contrainte.
-* **Cas 2**
-* On dénombre alors 3 cas différents -> Il y a au moins un bloc dans notre séquence:
+  * Lorsqu'aucun bloc noir n'est à placer (l = 0), la séquence de blocs est vide. Dans ce cas, peu importe la position (j) le long de la ligne, la condition pour colorier la ligne jusqu'à la case (j) en respectant une séquence vide est toujours satisfaite, puisqu'une absence totale de blocs peut toujours être représentée par des cases blanches.
+  * **Conclusion :** (T(j, 0)) est vrai pour tout (j), reflétant la possibilité de remplir toute portion de la grille en blanc sans contrainte.
+* **Cas 2*
 
-  1. Option a: (j < sl − 1)
+On dénombre alors 3 cas différents -> Il y a au moins un bloc dans notre séquence:
 
-  * Si j est inférieur à  sl - 1, cela signifie que l'espace disponible est insuffisant pour le premier bloc de taille sl . Dans ce cas, il n'est pas possible de placer un bloc de taille **sl** dans les j+1 premières cases.
-  * **Conclusion :** Dans ce cas, T(j, l) est faux, car l'espace ne permet pas d'accueillir le bloc.
-
-  2. Option b: (j = sl − 1)
-
-  * Si (j) correspond exactement à l'espace requis pour le bloc (s_l) (le premier bloc dans ce contexte), alors la ligne peut être colorée conformément à la séquence uniquement si cette séquence est composée du seul bloc (s_l). Cela suppose qu'aucun autre bloc ne doit être placé après (s_l) pour que la condition soit vraie.
-  * **Conclusion :** T(j, l) est vrai si et seulment si (l = 1), car le bloc peut être placé exactement dans l'espace disponible. Pour (l > 1), la condition est plus complexe et dépend des blocs subséquents dans la séquence.
+* Option a: (j < sl − 1)
+* Si j est inférieur à  sl - 1, cela signifie que l'espace disponible est insuffisant pour le premier bloc de taille sl . Dans ce cas, il n'est pas possible de placer un bloc de taille **sl** dans les j+1 premières cases.
+* **Conclusion :** Dans ce cas, (T(j, l)) est faux, car l'espace ne permet pas d'accueillir le bloc.
+* Option b: (j = sl − 1)
+* Si (j) correspond exactement à l'espace requis pour le bloc (s_l) (le premier bloc dans ce contexte), alors la ligne peut être colorée conformément à la séquence uniquement si cette séquence est composée du seul bloc (s_l). Cela suppose qu'aucun autre bloc ne doit être placé après (s_l) pour que la condition soit vraie.
+* **Conclusion :** (T(j, l)) est vrai si (l = 1), car le bloc peut être placé exactement dans l'espace disponible. Pour (l > 1), la condition est plus complexe et dépend des blocs subséquents dans la séquence.
 
 #### Question 3
 
@@ -62,7 +60,7 @@ Soit j' < j et l' <= l. On propose la recurence suivante:
 * Si (i, j) est blanc alors T(j, l) = T(j - 1, l)
 * Si (i, j) est noir alors T(j - sl -1, l - 1)
 
-**Si la case ((i,j) est blanche :** Cela signifie que la configuration qui termine à la case (i,j−1) doit déjà être valide pour les blocs. Donc, T(j,l) est vrai si T(j−1,l) est vrai.
+**Si la case ((i,j) est blanche :** Cela signifie que la configuration qui termine à la case ((i,j−1) doit déjà être valide pour les blocs. Donc, T(j,l) est vrai si T(j−1,l) est vrai.
 **Si la case (i,j) est noire :**  nous voulons vérifier si le bloc de sl cases noires peut se terminer à la case  j, donc nous devons regarder sl cases avant la case  j et aussi compter une case supplémentaire pour l'espace blanc obligatoire. Cela signifie que nous regardons à la position j − sl − 1 . Si T ( j − sl − 1 , l − 1 )  est vrai, cela signifie qu'il est possible de placer les l − 1  premiers blocs dans les premières j − sl − 1  cases, ce qui laisse juste assez d'espace pour que le bloc sl soit placé à la fin.
 
 On applique toutes ces notions sur le pseudo-code proposé ci-dessous:
@@ -123,7 +121,7 @@ Par ailleurs, la formule générale pour déterminer la complexité d’un algor
 
 ![1710884842557](image/README/1710884842557.png)
 
-Dans notre cas, puisque chaque évaluation de  implique potentiellement une analyse sur l’ensemble de la ligne avec des appels récursifs pour tenir compte des cases déjà colorées, la complexité totale s’exprime en O(M^2)(complexité quadratique).
+Dans notre cas, puisque chaque évaluation de T(j, l)implique potentiellement une analyse sur l’ensemble de la ligne avec des appels récursifs pour tenir compte des cases déjà colorées, la complexité totale s’exprime en O(M^2)(complexité quadratique).
 
 #### Question 7
 
@@ -131,7 +129,7 @@ Dans notre cas, puisque chaque évaluation de  implique potentiellement une anal
 
 Fonction : T_v2 (Vérifie la validité lors de la résolution du puzzle)
 
-*Entrees:*
+*Entrées:*
 
 - j : index de la cellule actuelle (entier)
 - l : Indice de la séquence actuelle (entier)
@@ -295,7 +293,7 @@ bool T_v2(int j, int l, int *tab, int *seq)
 
 ##### Tests
 
-Les tetsts sont essentiels pour verifier le comportment de la fonctionne.  On propose les tests basics et complex ci-dessous:
+Les tetsts sont essentiels pour verifier le comportment de la fonctionne.  On propose les tests basics et complexes ci-dessous:
 
 ```c
 Basic cases
@@ -564,7 +562,7 @@ Suite à l'application de notre programme, utilisant l'algorithme incomplet, sur
 | *9.txt   | 173.42733375seconds        | 138.741867 seconds                        | ![1710813900832](image/README/1710813900832.png) |
 | *10.txt  | 471.59015625 seconds       | 377.272125 seconds                        | ![1710813905126](image/README/1710813905126.png) |
 
-Les instances avec * etaient incompletes en utilisant la méthode de résoolution incomplète. En effet, la maniere d'implimentation de notre algorithm incomplet avait comme resultat de tourner à l'infinie pour ces instances là et c'est pourquoi on a utilisé la méthode de resolution complete CF Question 13.
+Les instances avec * etaient incomplètes en utilisant la méthode de résolution incomplète. En effet, la manière d'implémentation de notre algorithme incomplet avait comme resultat de tourner à l'infinie pour ces instances là; c'est pourquoi on a utilisé la méthode de resolution complete (cf Question 13).
 
 ##### Nota Bene
 
@@ -883,19 +881,31 @@ Vous trouverez ci-dessous la définition et l'explication des codes de sortie de
 
 Il y a qeulque choses que je veut ajouter:
 
+
 ## Difficultés et problèmes rencontrés
 
-Pendant le devlopment et l'analyse strategique pour les differents resolutions du jeu, il y a plusieurs difficultes qui etait reconnues. On a:
+Durant le développement et l'élaboration de stratégies pour les différentes méthodes de résolution du jeu, plusieurs difficultés ont été identifiées :
 
-1. **Amélioration de la fonction T(j, l) :** Afin qu'elle réponde correctement à tous les scénarios envisageables. Des tests individuels et précis ont permis de détecter et de corriger les erreurs dans différentes itérations. Par exemple, voici comment on a procedé:
+## Difficultés et problèmes rencontrés
+
+Durant le développement et l'élaboration de stratégies pour les différentes méthodes de résolution du jeu, plusieurs difficultés ont été identifiées :
+
+1. **Amélioration de la fonction (T(j, l)) :** Afin qu'elle réponde correctement à tous les scénarios envisageables. Des tests individuels et précis ont permis de détecter et de corriger les erreurs dans différentes itérations.Par exemple, voici comment on a procedé:
    ![1710882802914](image/READMEcopy/1710882802914.png)
 
    ![1710882827587](image/READMEcopy/1710882827587.png)
+
 2. **Identification des cas particuliers :** Où le programme de coloration pourrait échouer. L'utilisation du débogueur a été cruciale pour analyser le comportement du programme étape par étape et identifier les points de défaillance.
+
 3. **Choix d'une méthode de stockage et de traitement des données :** Et la mise en place des bonnes pratiques pour optimiser le traitement. Cela inclut la décision sur la manière de structurer les données pour un traitement efficace.
+
 4. **Gestion de la mémoire :** Il était essentiel de libérer la mémoire utilisée de manière judicieuse( utilisation de free)  pour permettre au code de s'exécuter sur un large éventail d'ordinateurs sans impacter les performances, particulièrement durant les opérations calculatoires intensives.
+
 5. **Lecture des fichiers d'instance :** Le code initial ne gérait pas efficacement la lecture de nombres composés de plusieurs chiffres. Cela affectait grandement l'exactitude des séquences enregistrées et, par conséquent, la résolution des puzzles. Le problème a été résolu en introduisant une méthode pour identifier le caractère suivant tout en stockant temporairement les données dans un tampon, avant de les convertir en nombre.
+
 6. **Compréhension du sujet :** La pleine compréhension des différentes méthodes de résolution algorithmique représentait un défi, essentiel pour la mise en œuvre correcte des stratégies de résolution.
+
+
 
 ## Versioning
 
@@ -927,7 +937,7 @@ Voici les différentes versions dévelopées lors de l'évolution du projet :
 
 Le développement de notre solution du jeu nonogram a été une expérience formatrice et enrichissante, nous offrant des compétences précieuses en programmation et en résolution de problèmes. Toutefois, il reste des possibilités d'amélioration pour augmenter l'attrait et la performance du programme.
 
-Actuellement, notre programme utilise une interface en ligne de commande. Cependant, pour le rendre visuellement plus attrayant, on pourrait ajouter une interface graphique en utilisant des bibliothèques externes telles que GTK+, Qt, ou SDL. Cette dernière permettrait notamment d'afficher les puzzles résolus sous forme d'images en couleur (avec les instances mis à jour effectivement). Néanmoins, cette amélioration demanderait des compétences et des installations supplémentaires. En outre, optimiser l'algorithme d'exploration, si cela s'avère possible, contribuerait à accroître l'efficacité du jeu, peut-être par l'implémentation d'un algorithme de programmation dynamique qui sauvegarderait les résultats intermédiaires de la fonction T_v2.
+Actuellement, notre programme utilise une interface en ligne de commande. Cependant, pour le rendre visuellement plus attrayant, on pourrait ajouter une interface graphique en utilisant des bibliothèques externes telles que GTK+, Qt, ou SDL. Cette dernière permettrait notamment d'afficher les puzzles résolus sous forme d'images en couleur. Néanmoins, cette amélioration demanderait des compétences et des installations supplémentaires. En outre, optimiser l'algorithme d'exploration, si cela s'avère possible, contribuerait à accroître l'efficacité du jeu, peut-être par l'implémentation d'un algorithme de programmation dynamique qui sauvegarderait les résultats intermédiaires de la fonction T_v2.
 
 ## Copyright
 
