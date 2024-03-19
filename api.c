@@ -171,21 +171,20 @@ bool color_grid_complet(int **grid, int **rows_columns, int n_rows, int n_column
     copy_grid(grid, duplicate, n_rows, n_columns);
 
     // ==========================
-    // Black test
+    // White test
     // ==========================
-    grid[i][j] = BLACK;
+    grid[i][j] = WHITE;
     if (color_grid_v3(grid, n_rows, n_columns, rows_columns, maximum, mode) == SUCCESS)
     {
         free_2d(duplicate, n_rows);
         return true;
     }
     copy_grid(duplicate, grid, n_rows, n_columns); // going back to previous state
-    
 
     // ==========================
-    // White test
+    // Black test
     // ==========================
-    grid[i][j] = WHITE;
+    grid[i][j] = BLACK;
     if (color_grid_v3(grid, n_rows, n_columns, rows_columns, maximum, mode) == SUCCESS)
     {
         free_2d(duplicate, n_rows);
