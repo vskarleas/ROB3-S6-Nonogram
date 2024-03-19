@@ -329,6 +329,7 @@ bool T_v2(int j, int l, int *tab, int *seq)
 
 
 /* Coloring the grid following seperate lines and seperates collumns approach */
+// Versions pf Algorithm Annexe 1
 /* FINAL VERSION IS V3 */
 enum State color_grid_v1(int **main_grid, int n_rows, int n_columns, int **rows, int **columns, int maximum)
 {
@@ -430,6 +431,9 @@ enum State color_grid_v1(int **main_grid, int n_rows, int n_columns, int **rows,
 }
 
 /* Coloring the grid (partially) and making decisions */
+// After several research on efficient ways to proceed on a pickross solution, the folleoing observations eere essential:
+// - Colorise everythign if you know that this would be the only solution. (ex a line with 0 sequences will be only white. Or even total numher if blacks cells expexted plus minimum one white cell between them - being rqual ti the lime's length, then there can't exist another solution
+// - Force a ceel into a color and see what's the reaction of the solving process as mentioned on Tan Li Hau blog post
 enum State color_grid_v2(int **grid, int n_rows, int n_columns, int **rows_columns, int maximum)
 {
     // NOTE: x is for horizontal (lines) and y is for vertical (columns) on grid's 2D array
