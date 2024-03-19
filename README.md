@@ -879,9 +879,6 @@ Vous trouverez ci-dessous la définition et l'explication des codes de sortie de
 | exit(1)   | ERROR  | EPS file creation failed                                        |
 | exit(-9)  | ERROR  | Couldn't open the tests file                                    |
 
-Il y a qeulque choses que je veut ajouter:
-
-
 ## Difficultés et problèmes rencontrés
 
 Durant le développement et l'élaboration de stratégies pour les différentes méthodes de résolution du jeu, plusieurs difficultés ont été identifiées :
@@ -894,18 +891,11 @@ Durant le développement et l'élaboration de stratégies pour les différentes 
    ![1710882802914](image/READMEcopy/1710882802914.png)
 
    ![1710882827587](image/READMEcopy/1710882827587.png)
-
 2. **Identification des cas particuliers :** Où le programme de coloration pourrait échouer. L'utilisation du débogueur a été cruciale pour analyser le comportement du programme étape par étape et identifier les points de défaillance.
-
 3. **Choix d'une méthode de stockage et de traitement des données :** Et la mise en place des bonnes pratiques pour optimiser le traitement. Cela inclut la décision sur la manière de structurer les données pour un traitement efficace.
-
 4. **Gestion de la mémoire :** Il était essentiel de libérer la mémoire utilisée de manière judicieuse( utilisation de free)  pour permettre au code de s'exécuter sur un large éventail d'ordinateurs sans impacter les performances, particulièrement durant les opérations calculatoires intensives.
-
 5. **Lecture des fichiers d'instance :** Le code initial ne gérait pas efficacement la lecture de nombres composés de plusieurs chiffres. Cela affectait grandement l'exactitude des séquences enregistrées et, par conséquent, la résolution des puzzles. Le problème a été résolu en introduisant une méthode pour identifier le caractère suivant tout en stockant temporairement les données dans un tampon, avant de les convertir en nombre.
-
 6. **Compréhension du sujet :** La pleine compréhension des différentes méthodes de résolution algorithmique représentait un défi, essentiel pour la mise en œuvre correcte des stratégies de résolution.
-
-
 
 ## Versioning
 

@@ -254,22 +254,14 @@ bool T_v2(int j, int l, int *tab, int *seq)
        cells. If it finds a white cell then the sequence is not valid and returns false */
     if (j == seq[l - 1] - 1)
     {
-        if (l == 1)
+        for (int i = j; i > j - seq[l - 1]; i--)
         {
-            for (int i = 0; i < seq[l - 1]; i++)
+            if (tab[i] == WHITE)
             {
-                if (tab[j - i] == WHITE)
-                {
-                    return false;
-                }
+                return false;
             }
-
-            return true;
         }
-        else
-        {
-            return false;
-        }
+        return (l == 1); // either true or false
     }
 
     // ================
@@ -282,8 +274,7 @@ bool T_v2(int j, int l, int *tab, int *seq)
         // Case where after the sequence the next cell is white or not coloured. In that case we move on for the next seqence (l - 1)
         if (tab[j - seq[l - 1]] == WHITE || tab[j - seq[l - 1]] == DEFAULT)
         {
-            int i;
-            for (i = j; i > j - seq[l - 1]; i--)
+            for (int i = j; i > j - seq[l - 1]; i--)
             {
                 if (tab[i] == WHITE)
                 {
@@ -293,11 +284,10 @@ bool T_v2(int j, int l, int *tab, int *seq)
 
             return (T_v2(j - seq[l - 1] - 1, l - 1, tab, seq));
         }
-
-        /* After the sequence there is a black cell that under normal circomstances
-       it should be white for the sequence to be valid in that position. So it's false in that case. */
-        if (tab[j - seq[l - 1]] == BLACK)
+        else
         {
+            /* After the sequence there is a black cell that under normal circomstances
+               it should be white for the sequence to be valid in that position. So it's false in that case. */
             return false;
         }
     }
@@ -315,8 +305,7 @@ bool T_v2(int j, int l, int *tab, int *seq)
        on index j - seq[l] (black exclusivly), so last but not least we need to perform
        a global test. If there is a white cell that is found then we move on one step
        on the left as usual according to question 3. */
-    int i;
-    for (i = j; i > j - seq[l - 1]; i--)
+    for (int i = j; i > j - seq[l - 1]; i--)
     {
         if (tab[i] == WHITE)
         {
