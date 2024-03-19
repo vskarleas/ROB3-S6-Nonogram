@@ -113,18 +113,18 @@ Effectivement, il y a des scenarios ou l'algorithme finis plus rapidement que pr
 
 Fonction : T_v2 (Vérifie la validité lors de la résolution du puzzle)
 
-Entrees:
+*Entrees:*
 
 - j : index de la cellule actuelle (entier)
 - l : Indice de la séquence actuelle (entier)
 - onglet : grille de nonogrammes (tableau d'entiers) (probablement NOIR = 1, BLANC = 0)
 - seq : longueurs de séquence pour une ligne/colonne (tableau d'entiers)
 
-Sortie:
+*Sortie:*
 
 - bool : True si une configuration valide existe, False sinon
 
-Algorithme:
+*Algorithme:*
 
 1. Vérifiez la violation maximale des cellules :
 
@@ -651,7 +651,7 @@ Pendant le devlopment et l'analyse strategique pour les differents resolutions d
 3. Decider sur une methode de stockage et traitment de donnes et faire les majorations qui permettent le traitment ptimale
 4. Il ne faut pas oublier de faire de free aux endroits intelligent, permetant le code d'etre executable sur un grand nomre des ordis sans aucun impact pendant l'execution et tous ses calculs qui se passent
 5. Pendant la lecture du fichier d'une instance, le code n'etait pas optimale de lire des nombres qui sont de taille des digits plus que un. Comme vous imaginez, ca avait un tres grand impact sur les sequences sauvegardes et aux resolutions. La resolution du porbleme etait simple: Introduction d'un test permetant d'identifier le prochaine caracter tout en sauvegardant sur un buffer que apres on transformait en nombre.
-6. La comprehension totale du sujet et des differents methodes de resolution algorithmique etait un chalenge pour 
+6. La comprehension totale du sujet et des differents methodes de resolution algorithmique etait un chalenge pour comprendre.
 
 ## Exit codes
 
