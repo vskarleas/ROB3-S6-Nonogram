@@ -1,15 +1,5 @@
 # Un problème de tomographie discrète S6 2023 - 2024
 
-## Instructions
-
-Pour lancer le programme (tests de la fonction T [version 2], implimentation des resolutions sur instances indiques ou encore resolution automatic des instances chosi), il suffit de donner accès au programme d'installation automatique. Voici les instructions :
-
-1. Telechargez le repertoire Source Code
-2. Ouvrez une fenêtre du terminal et assurez-vous que vous êtes dans le même répertoire que le code source du projet que vous avez installé
-3. Tappez `chmod 777 run.sh` et exécutez ensuite en faisant `bash run.sh`. Maintenant, il suffit de suivre les instructions sur le terminal et vous pouvez decouvrir les differets fonctionalités.
-4. Tous les instances faut être en format décrit sur le sujet du projet et il faut qu'ils sont sauvegardés sur le repertoire `instances` du Source code.
-5. Pour l'option `auto` il faut avoir déjà placé sur le repertoire instances les instances que vous souhaitez et après il faut ouvrir le fichier `list.txt` et mettre/modifier les nomes des instances que vont être traités.
-
 ## Introduction
 
 Ce rapport s'inscrit dans le cadre de l'unité d'enseignement Algorithme du semestre 6 du programme de robotique. Il présente notre démarche et nos solutions apportées à un projet captivant et stimulant : le développement d'un algorithme pour résoudre un jeu de tomographie discrète, plus communément connu sous le nom de Nonogram ou Picross.
@@ -20,6 +10,16 @@ Le cœur de notre projet est donc la construction d'une solution qui permette de
 
 Notre objectif est double : non seulement développer une méthode efficace et fiable pour résoudre ce type de puzzles, mais également approfondir notre compréhension des techniques algorithmiques et de leur application dans des contextes ludiques mais complexes.
 
+## Instructions
+
+Pour lancer le programme (tests de la fonction T [version 2], implimentation des resolutions sur instances indiques ou encore resolution automatic des instances chosi), il suffit de donner accès au programme d'installation automatique. Voici les instructions :
+
+1. Telechargez le repertoire Source Code
+2. Ouvrez une fenêtre du terminal et assurez-vous que vous êtes dans le même répertoire que le code source du projet que vous avez installé
+3. Tappez `chmod 777 run.sh` et exécutez ensuite en faisant `bash run.sh`. Maintenant, il suffit de suivre les instructions sur le terminal et vous pouvez decouvrir les differets fonctionalités.
+4. Tous les instances faut être en format décrit sur le sujet du projet et il faut qu'ils sont sauvegardés sur le repertoire `instances` du Source code.
+5. Pour l'option `auto` il faut avoir déjà placé sur le repertoire instances les instances que vous souhaitez et après il faut ouvrir le fichier `list.txt` et mettre/modifier les nomes des instances que vont être traités.
+
 ## I- Méthode incomplète de résolution
 
 La méthode incomplète de résolution que nous avons explorée pour ce projet s'articule autour d'un processus itératif visant à simplifier le problème initial de tomographie discrète en identifiant les cases dont la couleur peut être déterminée directement à partir des contraintes données. Cette approche, bien qu'elle ne garantisse pas la résolution complète du puzzle pour toutes les instances, permet de réduire considérablement l'espace de recherche et de poser les fondations pour des stratégies de résolution plus avancées.
@@ -28,7 +28,7 @@ La méthode incomplète de résolution que nous avons explorée pour ce projet s
 
 #### Question 1
 
-Si l'on a calculé tous les (T(j, l), pour savoir s'il est possible de colorier la ligne 𝑙𝑖 entière avec la séquence entière, il suffit de regarder la valeur de T(M-1, k) avec k entre 1 et l. Il faut noter que M représente le nombre total de colonnes dans la ligne en question.
+Si l'on a calculé tous les T(j, l), pour savoir s'il est possible de colorier la ligne 𝑙𝑖 entière avec la séquence entière, il suffit de regarder la valeur de T(M-1, k) avec k entre 1 et l. Il faut noter que M représente le nombre total de colonnes dans la ligne en question.
 
 La valeur de T(M-1, k) nous indique s'il est possible de placer le k-ième bloc dans la ligne de manière à ce que tous les blocs ( s_1, s_2, ..., s_k ) soient placés correctement selon les règles du jeu. En revanche, si T(M-1, k) est vrai, cela signifie qu'il y a une façon de colorier toute la ligne en respectant les contraintes des séquences de blocs noirs.
 
