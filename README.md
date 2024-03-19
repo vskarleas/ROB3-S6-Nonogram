@@ -2,36 +2,69 @@
 
 ## Introduction
 
+Ce rapport s'inscrit dans le cadre de l'unité d'enseignement Algorithme du semestre 6 du programme de robotique. Il présente notre démarche et nos solutions apportées à un projet captivant et stimulant : le développement d'un algorithme pour résoudre un jeu de tomographie discrète, plus communément connu sous le nom de Nonogram ou Picross.
+
+Ce jeu de réflexion, joué en solitaire, pose un défi de taille : découvrir un dessin caché en coloriant une grille de cases en noir et blanc, en se basant uniquement sur des indices numériques situés à ses bords. Ces indices fournissent des séquences d'entiers représentant les longueurs des blocs de cases noires pour chaque ligne (𝑙𝑖) et chaque colonne (𝑐𝑗), numérotées respectivement de 0 à N-1 et de 0 à M-1.
+
+Le cœur de notre projet est donc la construction d'une solution qui permette de visualiser un dessin à travers un processus de coloriage respectant scrupuleusement les contraintes fournies par ces séquences. Chaque bloc de cases noires doit être séparé par au moins une case blanche, et il est possible que la grille commence ou se termine par des cases blanches. 
+
+Notre objectif est double : non seulement développer une méthode efficace et fiable pour résoudre ce type de puzzles, mais également approfondir notre compréhension des techniques algorithmiques et de leur application dans des contextes ludiques mais complexes.
+
+
 ## DEPRECATED notice
 
-Le development de la resolution du jeu a passé par plein differents stages et surtout pleines heures de reflexion selon la methode "try and error". Avec la finalisation du programme, le fonctions qui ne sont pas utilisé pour la resolution du probleme sont tagé comme `DEPRECATED`.
+
+Le développement de la solution pour ce jeu a traversé de nombreuses phases, marquées par de grandes périodes de réflexion et une approche itérative basée sur le principe "try and error". À l'achèvement du programme, les fonctions qui ne contribuent pas directement à la résolution du problème ont été marquées comme `DEPRECATED`.
+
+
+## I- Méthode incomplète de résolution 
+
+La méthode incomplète de résolution que nous avons explorée pour ce projet s'articule autour d'un processus itératif visant à simplifier le problème initial de tomographie discrète en identifiant les cases dont la couleur peut être déterminée directement à partir des contraintes données. Cette approche, bien qu'elle ne garantisse pas la résolution complète du puzzle pour toutes les instances, permet de réduire considérablement l'espace de recherche et de poser les fondations pour des stratégies de résolution plus avancées.
+
+
+
+# 1.1/Première étape
+
 
 ## Question 1
 
-Si l'on a calculé tous les (T(j, l), pour savoir s'il est possible de colorier la ligne li entière avec la séquence entière, il suffit de regarder la valeur de T(M-1, k) avec k entre 1 et l. Il faut noter que M représente le nombre total de colonnes dans la ligne en question.
+Si l'on a calculé tous les (T(j, l), pour savoir s'il est possible de colorier la ligne 𝑙𝑖 entière avec la séquence entière, il suffit de regarder la valeur de T(M-1, k) avec k entre 1 et l. Il faut noter que M représente le nombre total de colonnes dans la ligne en question.
 
-La valeur de T(M-1, k) nous indique s'il est possible de placer le k-ième bloc dans la ligne de manière à ce que tous les blocs \( s_1, s_2, ..., s_k \) soient placés correctement selon les règles du jeu. En revanche, si T(M-1, k) est vrai, cela signifie qu'il y a une façon de colorier toute la ligne en respectant les contraintes des séquences de blocs noirs.
+La valeur de T(M-1, k) nous indique s'il est possible de placer le k-ième bloc dans la ligne de manière à ce que tous les blocs ( s_1, s_2, ..., s_k ) soient placés correctement selon les règles du jeu. En revanche, si T(M-1, k) est vrai, cela signifie qu'il y a une façon de colorier toute la ligne en respectant les contraintes des séquences de blocs noirs.
 
-Maintenant qu’on sait qu’on peut colorier toute la ligne, il faut prouver que c’est la seule solution. La condition de l’unicité est T(M-2,k) est FALSE qui veut dire que pour une indice avant l'indice maximale des colones pour laquelle on a la condition verifié, on regarde qu'il faut avoir comme reponse egale à faux parce que normallement il n'y a pas de cases suffisantes pour que cette condition est aussi correct.
+
+L'unicité de la solution est assurée si la condition T(M−2,k) est fausse. Cela signifie qu'à l'indice juste avant le dernier dans la ligne, l'arrangement ne permet pas de placer tous les blocs conformément à la séquence imposée. En d'autres termes, si  T(M−2,k) est faux, cela indique qu'il n'existe pas suffisamment de cases disponibles pour répondre aux exigences de la séquence avant d'atteindre la fin de la ligne, renforçant ainsi l'idée que l'arrangement trouvé est le seul qui respecte les contraintes.
+
+
+ 
 
 ## Question 2
 
 Les cas de base de l'algorithme récursif pour remplir la table **T(j, l)** sont essentiels pour établir les conditions initiales qui vont guider la construction de la solution. Selon les conditions du jeu on a:
 
-* Case 1
 
-  * Dans ce cas, il n'y a aucun bloc noir à placer, donc peu importe la valeur de  **j** , la ligne peut toujours être colorée en blanc jusqu'à la case  **j** . Cela signifie que pour  **l = 0** , tous les **T(j, 0)** sont vrais, car une séquence vide est toujours possible.
-  * Ainsi, il faut retourner toujours TRUE.
-* Case 2
+* **Cas 1: (l = 0) (aucun bloc)**
+  
+  * Lorsqu'aucun bloc noir n'est à placer (l = 0), la séquence de blocs est vide. Dans ce cas, peu importe la position (j) le long de la ligne, la condition pour colorier la ligne jusqu'à la case (j) en respectant une séquence vide est toujours satisfaite, puisqu'une absence totale de blocs peut toujours être représentée par des cases blanches.
+  * **Conclusion :** (T(j, 0)) est vrai pour tout (j), reflétant la possibilité de remplir toute portion de la grille en blanc sans contrainte.
 
-  * Option a (j < sl − 1)
 
-    * Si j est inférieur à  sl - 1, cela signifie que l'espace disponible est insuffisant pour le premier bloc de taille sl . Dans ce cas, il n'est pas possible de placer un bloc de taille **sl** dans les j+1 premières cases.
-    * Alors il va retourner toujours FALSE cette cas
-  * Option b (j = sl − 1)
 
-    * Si j est égal à  sl - 1 , cela signifie que l'espace disponible est juste suffisant pour placer le premier bloc de taille sl et rien d'autre. Dans ce cas, le coloriage est possible si et seulement si l = 1.
-    * Ainsi il va retourner TRUE si on est à s1 parce que on sait forcement qu'il n'y a pas une autre sequence à traiter. Par contre pour sl, si l > 1, alors on ne peut pas être sur si la prochaine sequence pourrait etre traité de debut à la fin.
+* **Cas 2* 
+
+On dénombre alors 3 cas différents -> Il y a au moins un bloc dans notre séquence:
+  
+  * Option a: (j < sl − 1)
+
+  * Si j est inférieur à  sl - 1, cela signifie que l'espace disponible est insuffisant pour le premier bloc de taille sl . Dans ce cas, il n'est pas possible de placer un bloc de taille **sl** dans les j+1 premières cases.
+  * **Conclusion :** Dans ce cas, (T(j, l)) est faux, car l'espace ne permet pas d'accueillir le bloc.
+
+ * Option b: (j = sl − 1)
+  * Si (j) correspond exactement à l'espace requis pour le bloc (s_l) (le premier bloc dans ce contexte), alors la ligne peut être colorée conformément à la séquence uniquement si cette séquence est composée du seul bloc (s_l). Cela suppose qu'aucun autre bloc ne doit être placé après (s_l) pour que la condition soit vraie.
+  * **Conclusion :** (T(j, l)) est vrai si (l = 1), car le bloc peut être placé exactement dans l'espace disponible. Pour (l > 1), la condition est plus complexe et dépend des blocs subséquents dans la séquence.
+
+
+
 
 ## Question 3
 
@@ -43,7 +76,8 @@ Soit j' < j et l' <= l. On propose la recurence suivante:
 **Si la case ((i,j) est blanche :** Cela signifie que la configuration qui termine à la case ((i,j−1) doit déjà être valide pour les blocs. Donc, T(j,l) est vrai si T(j−1,l) est vrai.
 **Si la case (i,j) est noire :**  nous voulons vérifier si le bloc de sl cases noires peut se terminer à la case  j, donc nous devons regarder sl cases avant la case  j et aussi compter une case supplémentaire pour l'espace blanc obligatoire. Cela signifie que nous regardons à la position j − sl − 1 . Si T ( j − sl − 1 , l − 1 )  est vrai, cela signifie qu'il est possible de placer les l − 1  premiers blocs dans les premières j − sl − 1  cases, ce qui laisse juste assez d'espace pour que le bloc sl soit placé à la fin.
 
-On applique tous ceux notions sur le pseudocode proposé ci-dessous pour la question 4.
+On applique toutes ces notions sur le pseudo-code proposé ci-dessous:
+
 
 ## Question 4
 
@@ -75,37 +109,45 @@ si (l >= 1) alors
 finsi
 ```
 
-Trouver la fonction finale selon les modifications demandé en question 5 à la question 7.
+La fonction finale, intégrant les modifications suggérées a la question 5, est disponible à la question 7.
+
+
+# 1.2/Généralisation
+
 
 ## Question 5
 
 On propose les modifications suivantes:
 
-1. Dans le cas 2b, on verifie si on trouve une case blanche pour l'intervalle de 0 à j-1. Si une telle case existe alors automatiquement la sequence en question n'est pas valable, ainsi on retourne false. Sinon si ce premier test est passé, on a retourne true si et seulemt si l = 1 comme avant.
-2. Dans le cas 2c, on regarde si la case tab[j] est blanche. Si c'est le cas, il faut qu'on se deplace une position à gauche `T(j - 1, l, tab, seq)` et on re-test. Si ce n'est pas le cas, on dans une de deux cas ci-dessous:
+1. Dans le cas 2b, on verifie si on trouve une case blanche pour l'intervalle de 0 à j-1. Si une telle case existe alors automatiquement la sequence en question n'est pas valable, ainsi on retourne false. Sinon si ce premier test est passé, on  retourne true uniquement si l=1, conformément à la règle originale.
 
-   * Soit la case est noir
-   * Soit la case n'est pas colorié
 
-   Alors on continue d'appeler recursivement selon la relation de recurssion trouvé à la question 3.
+2. Dans le cas 2c, la première étape consiste à examiner si la case à l'indice j est blanche. Si tel est le cas, l'algorithme doit se déplacer d'une case vers la gauche, c'est-à-dire appeler T(j - 1, l, tab, seq) pour réévaluer la situation à partir de cette nouvelle position. Si la case n'est pas blanche, deux possibilités se présentent :
+
+   * Soit la case est noire
+   * Soit la case n'est pas coloriée
+
+Alors, on continue d'appelé recursivement selon la relation de recurssion trouvé à la question 3.
+
 
 ## Question 6
 
-La complexité de la fonction T dépend de la façon dont les appels récursifs se déroulent. Dans le pire des cas, on peut observer une complexité exponentielle parce que :
 
-* Cas de base : Si la longueur de la séquence l est nulle, la fonction retourne `true` - complexité O(1).
-* Cas récursifs :
+Question 6 : **Analyse de la complexité algorithmique**
 
-  * Si la position courante j est inférieure à la valeur attendue selon la séquence, la fonction retourne `false` O(1).
-  * Si j correspond à la fin d'un élément de la séquence, la fonction parcourt les cases de 0 à j-1. Ce parcours peut aller jusque à M éléments dans le pire des cas, ce qui représente une complexité de O(M).
-  * D'autre cote, si j dépasse la fin d'un élément de la séquence, la fonction effectue deux appels récursifs, pouvant mener à une situation où chacun de ces appels en déclenche deux autres, et ainsi de suite. Cette situation crée une arborescence d'appels qui grandit de manière exponentielle par rapport à M
+Dans ce contexte, l'évaluation de (T(j, l)) est effectuée récursivement pour une ligne de (M) colonnes. Pour déterminer la complexité globale de cette opération, il est essentiel de commencer par examiner la complexité associée à chaque calcul de (T(j, l)). 
 
-  Ainsi la complexité globale est O(2^M)
+Chaque calcul a une complexité de (O(M)),étant donné que nous procédons à des vérifications sur M colonnes . En considérant que nous avons M telles valeurs à evaluer, nous devons également intégrer cette répétitivité dans notre analyse de compléxité. 
 
-Effectivement, il y a des scenarios ou l'algorithme finis plus rapidement que prevu, par exemple:
 
-* Si la boucle dans le deuxième cas récursif rencontre une case blanche (`WHITE`), la fonction retourne `false` immédiatement, stoppant la recursion sur cette branche.
-* Si la longueur de la séquence l possède une borne supérieure constante (indépendante de M), la profondeur de la recursion sera limitée, pouvant mener à une complexité inférieure.
+Par ailleurs, la formule générale pour déterminer la complexité d’un algorithme basé sur la programmation dynamique est le produit du nombre de sous-problèmes à résoudre par la complexité de résolution d’un sous-problème individuel. 
+
+
+Dans notre cas, puisque chaque évaluation de  implique potentiellement une analyse sur l’ensemble de la ligne avec des appels récursifs pour tenir compte des cases déjà colorées, la complexité totale s’exprime en 
+O(M^2)(complexité quadratique).
+
+
+
 
 ## Question 7
 
@@ -228,7 +270,7 @@ bool T_v2(int j, int l, int *tab, int *seq)
 
 ### Tests
 
-On propose les tests ci-dessous:
+On propose les tests suivants :
 
 ```c
 Basic cases
@@ -323,19 +365,34 @@ Test No 21
 ? | # | # | ? The sequence is:  1 | 1 =>  TRUE
 ```
 
-Ces tests nous avos permis de conclure si la fonction T etait capable de passer par plein differents scenarios extremes et perturbants.
+Ces tests nous ont permis de vérifier si la fonction (T) pouvait gérer efficacement une large gamme de scénarios extrêmes et complexes.
+
+
+# 1.3/Propagation
+
+
+Cette section détaille l'exploitation de notre fonction T pour identifier les cases qui doivent nécessairement être colorées en blanc ou en noir au sein d'une grille, en utilisant une méthode de propagation pour le coloriage partiel de celle-ci. L'approche de résolution commence avec une grille vierge et procède à l'examen de chaque ligne et colonne. Le but est de déterminer comment les colorier en s'appuyant sur l'algorithme décrit dans la section précédente. Lors de l'évaluation d'une case non colorée (i,j) de la ligne i, quatre scénarios se présentent :
+
+- Si la case peut être colorée en blanc, nous procédons à son coloriage et vérifions si cela conduit à une configuration valide de la ligne.
+- Si la case peut être colorée en noir, nous effectuons le coloriage et évaluons à nouveau la validité de la ligne.
+- Si aucune des deux options ne mène à une solution valide, cela signifie que la grille ne peut pas être résolue avec les contraintes données.
+- Si les deux options sont valides, aucune conclusion définitive ne peut être tirée pour cette case.
+
+Lorsqu'une case présente une unique possibilité de coloriage qui mène à une configuration valide, notre fonction de propagation assigne cette couleur à la case concernée. En revanche, si plusieurs options de coloriage respectent les contraintes sans permettre de trancher, la case reste indéterminée pour le moment. Cette méthode nous permet d'avancer progressivement dans la résolution du puzzle, en éclaircissant les zones de certitude tout en laissant ouvertes les questions qui requièrent une analyse plus approfondie.
+
+
 
 ## Question 8
 
-La boucle tant que s'exécute quand LignesAVoir ou ColonnesAVoir n'est pas vide. Alors, à chaque itération, au moins une case est coloriée, parce que ColoreLig et ColoreCol colorent au moins une case si possible. Ainsi le nombre total des itterations et N * M.
 
-Maintenant, on se focalise sur la complexité de ColoreLig et ColoreCol, qui sont des fonctionnes reccursives. La profondeur de la récursivité est bornée par le nombre de cases dans une ligne/colonne, soit N ou M respectivement. Donc, la complexité de chaque fonction est O(N * M).
+Dans cette analyse, nous prenons en considération les (N) lignes et (M) colonnes de notre grille. Pour colorier les cases, l'algorithme examine chaque ligne et colonne, utilisant les séquences indiquées en bordure pour guider le processus. La méthode adoptée aborde d'abord les lignes individuellement, cherchant à résoudre autant que possible avant de passer aux colonnes. Une fois toutes les colonnes examinées, les modifications apportées peuvent influencer la résolution précédemment obtenue pour les lignes, nécessitant un nouvel examen de celles-ci. Ce cycle entre l'analyse des lignes et des colonnes se poursuit jusqu'à ce qu'une solution complète soit dégagée pour la grille.
 
-On peut conclure que la complexité totale est O(N * M) * O(N * M) = O((N * M)^2) qui est bien une complexité polynomiale comme attendu.
+La nature itérative et récursive de cette approche, alternant entre lignes et colonnes pour maximiser la résolution à chaque étape, suggère une complexité algorithmique de O(N^2 + M^2). Cette estimation repose sur le fait que chaque ligne et colonne est traitée de manière récursive, avec un effort dédié à maximiser la résolution à travers toute la grille. Ainsi, nous établissons que l'algorithme opère avec une complexité polynomiale, compatible avec des exécutions efficaces même pour des grilles de grandes dimensions.
+
 
 ## Question 9
 
-L'implementation de l'agorithm incomplet est le suivant:
+L'implémentation de l'agorithme de résolution incomplète est le suivant:
 
 ```c
 enum State color_grid_v2(int **grid, int n_rows, int n_columns, int **rows_columns, int maximum)
@@ -461,9 +518,14 @@ enum State color_grid_v2(int **grid, int n_rows, int n_columns, int **rows_colum
 }
 ```
 
+
+
+# 1.4/Tests
+
 ## Q10
 
-En faisant une implimentation sur les instances 1.txt à 10.txt on obtiens les resultats ci-dessous (pour l'algorithme incomplet):
+
+Suite à l'application de notre programme, utilisant l'algorithme incomplet, sur les instances allant de 1.txt à 10.txt, nous avons compilé les résultats obtenus dans le tableau ci-dessous :
 
 ### Algorithme Incomplet
 
@@ -480,13 +542,20 @@ En faisant une implimentation sur les instances 1.txt à 10.txt on obtiens les r
 | *9.txt   | 173.42733375seconds        | 138.741867 seconds                        | ![1710813900832](image/README/1710813900832.png) |
 | *10.txt  | 471.59015625 seconds       | 377.272125 seconds                        | ![1710813905126](image/README/1710813905126.png) |
 
-Les instances avec * etait incomplet en utilisant la methode incplpet de l'algorithm. En outre, il faut noter qu'on onbserve une diminuation du temps de traitment par 25% en comparant les deux differents fonctions T.
 
-Il faut noter que l'agorithms sont basés sur la logique des algorithmes de retour en arrière. La résolution de nonogrammes implique généralement un algorithme de retour en arrière, qui explore de multiples possibilités et se répète de manière approfondie, créant potentiellement un grand nombre de piles d'appels de fonctions. Chaque appel récursif nécessite de la mémoire pour les paramètres de fonction, les variables locales et les adresses de retour. C'est pourquoi, la consommation de la memoire augmente chaque fois qu'une combinaison choisi n'est pas validé les consignes des sequences.
+Les instances avec * etaient incompletes en utilisant la méthode de résoolution incomplète. Par ailleurso , on remarque ici que pour l’instance 9 et 10 , le temps d’exécution est bien plus long. Cela s’explique par le fait qu’il y a beaucoup plus de lignes et que les séquences sont plus petites.
+
+
+Nota Bene:
+
+Au cours du développement, nous avons créé deux versions de la fonction (T)( accessible dans les programmes fournis). Une analyse comparative révèle que la seconde version permet de réduire le temps de traitement de 25% par rapport à la première. Cette amélioration significative s'explique en partie par la nature même des algorithmes utilisés.
+
+Les deux algorithmes s'appuient sur la stratégie de backtracking, couramment employée dans la résolution de nonogrammes. Cette approche consiste à explorer différentes possibilités à travers des appels récursifs successifs, ce qui, sans optimisation, peut entraîner une accumulation importante d'appels de fonction en mémoire. Chaque appel récursif alloue de l'espace pour les paramètres de la fonction, les variables locales et les adresses de retour. En conséquence, si une combinaison testée ne respecte pas les séquences requises, le processus d'élimination et de retour en arrière augmente la consommation de mémoire. La version améliorée de la fonction (T) semble donc offrir une gestion plus efficace des appels récursifs, optimisant le processus de backtracking pour réduire à la fois le temps de traitement et potentiellement l'empreinte mémoire.
+
 
 ## Q11
 
-L'pplication de l'alorithme sur l'instance 11 retourne le resultat suivante:
+L'application de l'alorithme sur l'instance 11 retourne le resultat suivant:
 
 ```c
 There is NO DECISION for the provided puzzle
@@ -495,23 +564,51 @@ The colourised grid is
 ? | ? | ? | ? 
 ```
 
-En fait comme ca, l'agorithme ne peut pas conclure à cause d'un chauvechement des incertitudes.
+
+En appliquant notre programme à l'instance 11.txt, nous avons constaté une particularité notable : la résolution partielle n'aboutit à aucune conclusion. Concrètement, aucune case n'est définitivement identifiée comme blanche ou noire ; toutes demeurent indéterminées. Ce phénomène s'explique par la manière dont notre algorithme de coloration opère. Cette fonction est conçue pour colorier uniquement les cases dont la couleur est assurée. Or, pour l'instance 11, il apparaît que chaque case pourrait théoriquement être colorée en blanc ou en noir sans violer les séquences fournies, car l'algorithme indique un potentiel de coloriage valide dans les deux sens, que ce soit en examinant les lignes ou les colonnes.
+
+Cette situation révèle une limite de l'algorithme en cas de résolution partielle : si, lors du passage ligne par ligne puis colonne par colonne, aucun coloriage définitif n'est possible, l'ensemble des cases reste dans un état d'indétermination. Cela signifie que, malgré le respect des contraintes de séquence, notre programme ne peut pas, dans ce cas précis, déterminer un schéma de coloriage unique pour la grille.
+
+Cela souligne donc l'importance de chercher  des stratégies complémentaires pour aborder les instances où l'approche partielle ne suffit pas à résoudre le puzzle.( cf méthode complète de résolution).
+
+
+
+## II- Méthode complète de résolution 
+
+
 
 ## Q12
 
-Pendant chaque appel récursif de `color_grid_complet`, il peut y avoir plusieurs sous-appels en fonction du résultat de l'attribution de couleur de la cellule en question. Dans le pire des cas, l'algorithme devra peut-être essayer à la fois BLANC et NOIR pour chaque cellule, ce qui conduit à une profondeur de 2 pour chaque cellule. En outre, il y aura des scenarios ou une choix verifié va etre annulé parce que elle n'etait pas optimale pour le resultat totale de la resultation. Dans ce cas, l'algorithm reviens à cette etape et il reprend.
 
-En combinant le nombre d'appels récursifs (n_rows * n_columns) et la profondeur de récursivité (2), la complexité temporelle globale devient : T(n) = n_lignes * n_colonnes * 2^n_lignes * n_colonnes ou encore T(n) = O(n^(lignes * colonnes)).
+
+Notre méthode s’appuie sur un fondement récursif. En essence, l’algorithme Énumération-Rec doit traiter une complexité exponentielle parce qu’à chaque étape, il est confronté à un choix binaire : colorier une case en noir ou en blanc. Ce choix se propage à travers toutes les cases de la grille, de gauche à droite et de haut en bas, couvrant ainsi la totalité des cases de 0 à NM-1.
+
+Dans le meilleur des cas, si la grille permet un coloriage direct et univoque, où chaque décision de coloriage d’une case conduit de manière linéaire à la suivante sans nécessiter d’exploration alternative, l’algorithme pourrait théoriquement se rapprocher d’une complexité linéaire pour ce cas spécifique. Ce scénario idéal se manifeste lorsque, pour chaque case examinée, le choix de couleur correspond exactement à l’attente, permettant ainsi à l’algorithme de progresser avec un seul appel récursif par case sans bifurcation. Si la couleur attendue pour la case  ne correspond pas à celle passée en paramètre, l’algorithme élimine rapidement cette voie avec une opération en O(1) . Néanmoins, si la couleur correspond, on peut potentiellement envisager deux nouvelles branches d’exploration pour la case suivante, bien que dans certaines configurations optimales, une seule branche suffise pour poursuivre la résolution.
+Ainsi, dans le meilleur des cas, la complexité de cet algorithme est de O (N x M).
+
+
+Dans le pire cas, considérons une case k initialement non définie, ce qui signifie qu’elle n’a pas encore été coloriée. L’algorithme Énumération-Rec(k, c) tente de colorier cette case avec la couleur spécifiée en paramètre c , et se trouve face à deux possibilités : colorer la case en noir ou en blanc. Ce choix mène à deux appels récursifs distincts : Énumération-Rec(k+1, 1) et Énumération-Rec(k+1, 2), pour explorer les conséquences de chaque option de coloriage.
+
+Si la case suivante,k+1 , est également indéterminée, chacun de ces deux appels initiaux se divise à nouveau, doublant le nombre d’explorations nécessaires. À ce stade, nous avons donc quatre appels récursifs en cours. Cette progression crée un arbre d’appels récursifs, où chaque niveau double le nombre d’appels par rapport au précédent.
+
+Dans un scénario où toutes les cases sont initialement libres, la complexité T(k) de résoudre le puzzle est dominée par la taille de cet arbre d’appels récursifs, qui croît de manière exponentielle à chaque étape. La relation récursive qui en découle pour la complexité de l’algorithme est donnée par t(k)= 2.T(k+1)+O(1) . Mathématiquement, cela se traduit par une complexité globale de O(2^(MN) , indiquant que, dans le pire des cas, l’algorithme opère avec une complexité exponentielle par rapport au nombre total de cases dans la grille, soit N*M .
+
+
+# 2.1/Implantation et tests
+
+
 
 ## Q13
 
-Cette fois on obtiens la bonne reponse pour l'instance 11.txt
+Cette fois, nous obtenons la réponse correcte pour l'instance 11.txt.
 
 ![1710814031918](image/README/1710814031918.png)
 
+
+
 ## Q14
 
-Ci-dessous on va livrer la representation des images seulment pour les instances qui n'etait pas examiné à la question 10.
+Ci-dessous, nous allons présenter uniquement les représentations visuelles des instances qui n'ont pas été analysées à la question 10.
 
 ### Algorithme Complet
 
@@ -537,42 +634,44 @@ Ci-dessous on va livrer la representation des images seulment pour les instances
 | **flag.txt  | 3.631973 seconds           | ![1710815961396](image/README/1710815961396.png) |
 | **photo.txt | 15.876246 seconds          | ![1710815952835](image/README/1710815952835.png) |
 
-**Voir la paragraph pour aler plus loin
+**Voir paragraphe: "pour aller plus loin"
 
 ### **Commentaires**
 
-On observe observe que le temps de resolution a diminue par rapport la methode de resolution incomplet. Maintenant, en ce qui concerne nos observations pour les instances 12 à 16 tout en essayant les executer en utilisant la methode incomplet, on a:
+Nous constatons que le temps de résolution a diminué en comparaison avec la méthode de résolution incomplète.
 
-* Il sont bloques sur une boucle infinies sans qu'il change quelque chose...
-* ....
-* ....
+Par ailleurs,lorsque nous appliquons notre algorithme, conçu pour la méthode de résolution partielle, aux instances de 12 à 16, nous rencontrons un phénomène similaire à celui observé avec l'instance 11, à savoir une présence d'indéterminations qui nous empêche de conclure à la faisabilité d'un coloriage spécifique. Toutefois, l'application de notre méthode de résolution complète élimine ces ambiguïtés en testant différentes hypothèses de coloriage. C'est grâce à cette approche exhaustive que nous parvenons à obtenir un coloriage défini et précis pour les instances de 11 à 16.
+  
 
 ### Instance 15
 
-Pour l'instance 15 on obtiens les resultats ci-dessous:
+Pour l'instance 15 on obtient les resultats suivants :
 
 | Algorithm 1.3 (version 2)                      | Algorithm 2 (version 3)                        |
 | ---------------------------------------------- | ---------------------------------------------- |
 | ![1710819488073](image/README/1710819488073.png) | ![1710816364235](image/README/1710816364235.png) |
 
+
+
 ## Pour aller plus loin
 
-On essayé de creer notre nonogram personalise avec deux differents objectifs:
+Nous avons entrepris la création de notre propre nonogramme avec deux objectifs distincts :
 
-1. Affichage de numeros et des texts sur la grille
-2. Representation d'une image par un nonogram
+1. **Incorporation de numéros et de textes sur la grille.**
+2. **Représentation d'une image à travers un nonogramme.**
 
-Le premier objectif est assez simpple à reasiler. Pour la deuxieme voici les etapes qu'on a suivi:
+Le premier objectif s'avère relativement simple à atteindre. Quant au second, voici les étapes que nous avons suivies :
 
-1. Selectioner une image et faire un crop carré 1x1
-2. Utiliser un outil en ligne permetant de le rendre uniquement en pixels noir et blanchs (https://www.resizepixel.com/convert-image-to-black-white/)
-3. Pour obtenir les sequences du jeu on a:
-   1. Sur le dossier image_encoding il y a un program MATLAB `main_program.m` qui accepte n'importe quelle image PNG
-   2. On choisi le ratio de division (si on veut diminuer la taille du nonogram et le simplifier en general)
-   3. Le script va creer un fichier excel qui contiens les sequences
-   4. Il suffit de faire un copier coller des sequences des lignes et des collognes sur un fichier .txt tout en resepctant la syntaxe introduit au sujet
-   5. Vue que les instances sont separe par un dash '-', on a develope un program sur python `encoding.py` qui viens de finir l'encodage du fichier pour qu'il soit utilisable par le code. Il faut noter que le fichier .txt faut etre sur le repertoir instances pour qu'il soir detectable par le program.
+1. Sélectionner une image et effectuer un découpage pour obtenir un format carré de 1x1.
+2. Utiliser un outil en ligne pour convertir l'image en une version uniquement composée de pixels noirs et blancs (https://www.resizepixel.com/convert-image-to-black-white/).
+3. Pour générer les séquences requises par le jeu, nous avons procédé comme suit :
+   1. Dans le dossier `image_encoding`, un programme MATLAB `main_program.m` est disponible pour traiter n'importe quelle image au format PNG.
+   2. Nous déterminons le ratio de division désiré, permettant de réduire et de simplifier la taille du nonogramme si nécessaire.
+   3. Le script génère alors un fichier Excel contenant les séquences requises.
+   4. Il suffit ensuite de copier et coller les séquences des lignes et des colonnes dans un fichier .txt, en veillant à respecter la syntaxe décrite dans les instructions.
+   5. Étant donné que les instances sont séparées par un tiret '-', nous avons développé un programme Python `encoding.py` pour finaliser l'encodage du fichier et le rendre compatible avec notre code. Il est important de noter que le fichier .txt doit être placé dans le répertoire `instances` pour être détecté par le programme.
       ```python
+      
       def replace_hyphens(filename):
         """Reads a text file, replaces hyphens with spaces, and saves the modified content to the same file."""
         with open(filename, 'r') as f:
@@ -587,9 +686,9 @@ Le premier objectif est assez simpple à reasiler. Pour la deuxieme voici les et
       print(f"Replaced hyphens with spaces in {filename}")
 
       ```
-4. Mainteant on peut utiliser le fichier .txt de l'instance construit.
+ Mainteant on peut utiliser le fichier .txt de l'instance construit.
 
-Nos deux insatnces construits suivant les deux objectifs sont **flag.txt** et **photo.txt** respectivement. Effectivement à cause des simplifcations et des limitations des fichiers PBM (utilése pour sauvegarder les donnes comme des images pixeléses sur la machine), le fichier photo.pbm (disponible sur le repertoire tests) n'est pas une image claire mais c'est proche à l'image originale.
+Nos deux instances créées selon les objectifs mentionnés précédemment sont **flag.txt** et **photo.txt**. En effet, en raison des simplifications apportées et des limitations inhérentes aux fichiers PBM (utilisés pour stocker les données sous forme d'images pixélisées sur l'ordinateur), le fichier **photo.pbm** (disponible dans le répertoire de tests) ne reproduit pas l'image originale avec une clarté parfaite, mais il s'en rapproche significativement.
 
 ## Exit codes
 
@@ -609,11 +708,12 @@ Vous trouverez ci-dessous la définition et l'explication des codes de sortie de
 | exit(1)   | ERROR  | EPS file creation failed                                        |
 | exit(-9)  | ERROR  | Couldn't open the tests file                                    |
 
+
 ## Versioning
 
 Le versioning est un élément clé en programmation, assurant la cohérence des modifications et facilitant la collaboration. Il est aussi primordial pour la récupération de données en cas de perte ou corruption. Au fil du projet, nous avons créé différentes versions de notre code, chacune marquant une étape importante de son évolution. Cela nous a permis de suivre les progrès, d'intégrer de nouvelles fonctionnalités et d'effectuer des corrections de manière structurée.
 
-Voici les differentes versions dévelopées lors de l'evolution du projet :
+Voici les différentes versions dévelopées lors de l'évolution du projet :
 
 * **V4.0** Base code was added/created
 * **V4.1** Project started. The 1.1 has been completed partially. The base cases work but when we check for a more complex one, the answers are not the best.
