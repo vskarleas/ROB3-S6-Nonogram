@@ -572,7 +572,7 @@ Les deux algorithmes (color_grid_v2 inclus) s'appuient sur la stratégie de back
 
 #### Question 11
 
-L'application de l'alorithme sur l'instance 11 retourne le resultat suivant:
+L'application de l'algorithme sur l'instance 11 retourne le resultat suivant:
 
 ```c
 There is NO DECISION for the provided puzzle
