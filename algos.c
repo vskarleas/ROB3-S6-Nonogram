@@ -256,8 +256,6 @@ bool T_v2(int j, int l, int *tab, int *seq)
        cells. If it finds a white cell then the sequence is not valid and returns false */
     if (j == seq[l - 1] - 1)
     {
-        if (l == 1)
-        {
             for (int i = j; i > j - seq[l - 1]; i--)
             {
                 if (tab[i] == WHITE)
@@ -265,13 +263,7 @@ bool T_v2(int j, int l, int *tab, int *seq)
                     return false;
                 }
             }
-
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+            return (l==1); //either true or false
     }
 
     // ================
