@@ -40,18 +40,20 @@ Les cas de base de l'algorithme récursif pour remplir la table **T(j, l)** sont
 
 * **Cas 1: (l = 0) (aucun bloc)**
 
-  * Lorsqu'aucun bloc noir n'est à placer (l = 0), la séquence de blocs est vide. Dans ce cas, peu importe la position (j) le long de la ligne, la condition pour colorier la ligne jusqu'à la case (j) en respectant une séquence vide est toujours satisfaite, puisqu'une absence totale de blocs peut toujours être représentée par des cases blanches.
-  * **Conclusion :** (T(j, 0)) est vrai pour tout (j), reflétant la possibilité de remplir toute portion de la grille en blanc sans contrainte.
-* **Cas 2*
+  * Lorsqu'aucun bloc noir n'est à placer (l = 0), la séquence de blocs est vide. Dans ce cas, peu importe la position j le long de la ligne, la condition pour colorier la ligne jusqu'à la case j en respectant une séquence vide est toujours satisfaite, puisqu'une absence totale de blocs peut toujours être représentée par des cases blanches.
+  * **Conclusion :** T(j, 0) est vrai pour tout j, reflétant la possibilité de remplir toute portion de la grille en blanc sans contrainte.
+* **Cas 2**
+* On dénombre alors 3 cas différents -> Il y a au moins un bloc dans notre séquence:
 
-On dénombre alors 3 cas différents -> Il y a au moins un bloc dans notre séquence:
+  1. Option a: (j < sl − 1)
 
-* Option a: (j < sl − 1)
-* Si j est inférieur à  sl - 1, cela signifie que l'espace disponible est insuffisant pour le premier bloc de taille sl . Dans ce cas, il n'est pas possible de placer un bloc de taille **sl** dans les j+1 premières cases.
-* **Conclusion :** Dans ce cas, (T(j, l)) est faux, car l'espace ne permet pas d'accueillir le bloc.
-* Option b: (j = sl − 1)
-* Si (j) correspond exactement à l'espace requis pour le bloc (s_l) (le premier bloc dans ce contexte), alors la ligne peut être colorée conformément à la séquence uniquement si cette séquence est composée du seul bloc (s_l). Cela suppose qu'aucun autre bloc ne doit être placé après (s_l) pour que la condition soit vraie.
-* **Conclusion :** (T(j, l)) est vrai si (l = 1), car le bloc peut être placé exactement dans l'espace disponible. Pour (l > 1), la condition est plus complexe et dépend des blocs subséquents dans la séquence.
+  * Si j est inférieur à  sl - 1, cela signifie que l'espace disponible est insuffisant pour le premier bloc de taille sl . Dans ce cas, il n'est pas possible de placer un bloc de taille **sl** dans les j+1 premières cases.
+  * **Conclusion :** Dans ce cas, T(j, l) est faux, car l'espace ne permet pas d'accueillir le bloc.
+
+  2. Option b: (j = sl − 1)
+
+  * Si (j) correspond exactement à l'espace requis pour le bloc (s_l) (le premier bloc dans ce contexte), alors la ligne peut être colorée conformément à la séquence uniquement si cette séquence est composée du seul bloc (s_l). Cela suppose qu'aucun autre bloc ne doit être placé après (s_l) pour que la condition soit vraie.
+  * **Conclusion :** T(j, l) est vrai si et seulment si (l = 1), car le bloc peut être placé exactement dans l'espace disponible. Pour (l > 1), la condition est plus complexe et dépend des blocs subséquents dans la séquence.
 
 #### Question 3
 
@@ -60,7 +62,7 @@ Soit j' < j et l' <= l. On propose la recurence suivante:
 * Si (i, j) est blanc alors T(j, l) = T(j - 1, l)
 * Si (i, j) est noir alors T(j - sl -1, l - 1)
 
-**Si la case ((i,j) est blanche :** Cela signifie que la configuration qui termine à la case ((i,j−1) doit déjà être valide pour les blocs. Donc, T(j,l) est vrai si T(j−1,l) est vrai.
+**Si la case ((i,j) est blanche :** Cela signifie que la configuration qui termine à la case (i,j−1) doit déjà être valide pour les blocs. Donc, T(j,l) est vrai si T(j−1,l) est vrai.
 **Si la case (i,j) est noire :**  nous voulons vérifier si le bloc de sl cases noires peut se terminer à la case  j, donc nous devons regarder sl cases avant la case  j et aussi compter une case supplémentaire pour l'espace blanc obligatoire. Cela signifie que nous regardons à la position j − sl − 1 . Si T ( j − sl − 1 , l − 1 )  est vrai, cela signifie qu'il est possible de placer les l − 1  premiers blocs dans les premières j − sl − 1  cases, ce qui laisse juste assez d'espace pour que le bloc sl soit placé à la fin.
 
 On applique toutes ces notions sur le pseudo-code proposé ci-dessous:
