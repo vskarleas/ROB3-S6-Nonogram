@@ -148,7 +148,7 @@ int count_black_cells(int *tab, int length, int mode)
 }
 
 /* Completing the colorisation process with recursion */
-int color_grid_complet(int **grid, int **rows_columns, int n_rows, int n_columns, int i, int j, int maximum, int mode)
+bool color_grid_complet(int **grid, int **rows_columns, int n_rows, int n_columns, int i, int j, int maximum, int mode)
 {
     /* Making a temporary copy of the grid for returning_back porpuses */
     int **duplicate;
@@ -171,28 +171,29 @@ int color_grid_complet(int **grid, int **rows_columns, int n_rows, int n_columns
     copy_grid(grid, duplicate, n_rows, n_columns);
 
     // ==========================
-    // White test
-    // ==========================
-    grid[i][j] = WHITE;
-    if (color_grid_v3(grid, n_rows, n_columns, rows_columns, maximum, mode) == SUCCESS)
-    {
-        free_2d(duplicate, n_rows);
-        return 1;
-    }
-    copy_grid(duplicate, grid, n_rows, n_columns); // going back to previous state
-
-    // ==========================
     // Black test
     // ==========================
     grid[i][j] = BLACK;
     if (color_grid_v3(grid, n_rows, n_columns, rows_columns, maximum, mode) == SUCCESS)
     {
         free_2d(duplicate, n_rows);
-        return 1;
+        return true;
+    }
+    copy_grid(duplicate, grid, n_rows, n_columns); // going back to previous state
+    
+
+    // ==========================
+    // White test
+    // ==========================
+    grid[i][j] = WHITE;
+    if (color_grid_v3(grid, n_rows, n_columns, rows_columns, maximum, mode) == SUCCESS)
+    {
+        free_2d(duplicate, n_rows);
+        return true;
     }
     copy_grid(duplicate, grid, n_rows, n_columns); // going back to previous state
 
     // Otherwise
     free_2d(duplicate, n_rows);
-    return 0;
+    return false;
 }

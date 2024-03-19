@@ -37,19 +37,19 @@ else
     case "$command" in
       auto)
         ./automatic
-        sleep 5
+        sleep 4
         ;;
       t_tests)
         ./t_tests
-        sleep 5
+        sleep 4
         ;;
       complet)
         ./complet
-        sleep 5
+        sleep 4
         ;;
       partial)
         ./partial
-        sleep 5
+        sleep 4
         ;;
       stop)
         break  # Exit the loop

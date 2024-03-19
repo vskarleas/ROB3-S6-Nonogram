@@ -29,6 +29,6 @@ int grid_defaults_count(int **grid, int rows, int columns);
 int count_black_cells(int *tab, int length, int mode);
 
 /* Completing the colorisation process with recursion */
-int color_grid_complet(int **grid, int **rows_columns, int n_rows, int n_columns, int i, int j, int maximum, int mode);
+bool color_grid_complet(int **grid, int **rows_columns, int n_rows, int n_columns, int i, int j, int maximum, int mode);
 
 #endif

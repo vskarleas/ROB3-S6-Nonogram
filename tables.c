@@ -2,7 +2,7 @@
 // # File tables.c
 // # UE Infomatics for Robotics - Polytech Sorbonne - 2023/2024 - S6
 // # Authors: Yanis Sadoun, Vasileios Filippos Skarleas - All rights reserved.
-// ############################################################################# 
+// #############################################################################
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -91,20 +91,16 @@ char *concat(const char *s1, const char *s2)
 /* Finding the next not-colorised cell in a 2D array */
 void recalculation(int **grid, int rows, int columns, int *i, int *j)
 {
-    int x = 0;
-    int y = 0;
-
-    while (x < rows && (*i) == -1)  //We take (*i) because we want to check the value of the pointer
+    for (int x = 0; x < rows; x++)
     {
-        for (y = 0; y < columns; y++)
+        for (int y = 0; y < columns; y++)
         {
             if (grid[x][y] == DEFAULT)
             {
-                (*i) = x;
-                (*j) = y;
-                break;
+                *i = x;
+                *j = y;
+                return;
             }
         }
-        x++;
     }
 }

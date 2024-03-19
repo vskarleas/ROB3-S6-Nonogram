@@ -2,7 +2,7 @@
 // # File algos.c
 // # UE Infomatics for Robotics - Polytech Sorbonne - 2023/2024 - S6
 // # Authors: Yanis Sadoun, Vasileios Filippos Skarleas - All rights reserved.
-// ############################################################################# 
+// #############################################################################
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -19,8 +19,7 @@
 /* It verifies the decisions regarding a line according to its sequence and the rules of the puzzle */
 /* FINAL VERSION IS V2 */
 
-
-//DEPRECATED
+// DEPRECATED
 /* VERSION 0: This version treats correctly the majority of cases but it doesn't take into consideration the already colourised
    black cells that are before the section that is tested and returned true. A test of total amount of black cells
    needs to be performed definitely */
@@ -110,7 +109,7 @@ bool T(int j, int l, int *tab, int *seq, int total_length)
     return false;
 }
 
-//DEPRECATED
+// DEPRECATED
 /* VERSION 1 */
 bool T_v1(int j, int l, int *tab, int *seq)
 {
@@ -151,7 +150,7 @@ bool T_v1(int j, int l, int *tab, int *seq)
     {
         if (l == 1)
         {
-            for (int i = 0; i < seq[l-1]; i++)
+            for (int i = 0; i < seq[l - 1]; i++)
             {
                 if (tab[j - i] == WHITE)
                 {
@@ -187,7 +186,6 @@ bool T_v1(int j, int l, int *tab, int *seq)
             }
             return (T_v1(j - seq[l - 1] - 1, l - 1, tab, seq));
         }
-        
     }
 
     /* After the sequence there is a black cell that under normal circomstances
@@ -256,14 +254,14 @@ bool T_v2(int j, int l, int *tab, int *seq)
        cells. If it finds a white cell then the sequence is not valid and returns false */
     if (j == seq[l - 1] - 1)
     {
-            for (int i = j; i > j - seq[l - 1]; i--)
+        for (int i = j; i > j - seq[l - 1]; i--)
+        {
+            if (tab[i] == WHITE)
             {
-                if (tab[i] == WHITE)
-                {
-                    return false;
-                }
+                return false;
             }
-            return (l==1); //either true or false
+        }
+        return (l == 1); // either true or false
     }
 
     // ================
@@ -288,15 +286,10 @@ bool T_v2(int j, int l, int *tab, int *seq)
         }
         else
         {
+            /* After the sequence there is a black cell that under normal circomstances
+               it should be white for the sequence to be valid in that position. So it's false in that case. */
             return false;
         }
-
-        /* After the sequence there is a black cell that under normal circomstances
-       it should be white for the sequence to be valid in that position. So it's false in that case. */
-        //if (tab[j - seq[l - 1]] == BLACK)
-        //{
-            //return false;
-        //}
     }
 
     /* After the sequence there is a black cell that under normal circomstances
@@ -326,11 +319,9 @@ bool T_v2(int j, int l, int *tab, int *seq)
     return false;
 }
 
-
-
 /* Coloring the grid following seperate lines and seperates collumns approach */
 // Versions pf Algorithm Annexe 1
-/* FINAL VERSION IS V3 */
+//DEPRECATED
 enum State color_grid_v1(int **main_grid, int n_rows, int n_columns, int **rows, int **columns, int maximum)
 {
     bool response;
@@ -433,7 +424,7 @@ enum State color_grid_v1(int **main_grid, int n_rows, int n_columns, int **rows,
 /* Coloring the grid (partially) and making decisions */
 // After several research on efficient ways to proceed on a pickross solution, the folleoing observations eere essential:
 // - Colorise everythign if you know that this would be the only solution. (ex a line with 0 sequences will be only white. Or even total numher if blacks cells expexted plus minimum one white cell between them - being rqual ti the lime's length, then there can't exist another solution
-// - Force a ceel into a color and see what's the reaction of the solving process as mentioned on Tan Li Hau blog post
+// - Force a ceel into a color and see what's the reaction of the solving process as mentioned on Tan Li Hau's blog post
 enum State color_grid_v2(int **grid, int n_rows, int n_columns, int **rows_columns, int maximum)
 {
     // NOTE: x is for horizontal (lines) and y is for vertical (columns) on grid's 2D array
@@ -484,8 +475,8 @@ enum State color_grid_v2(int **grid, int n_rows, int n_columns, int **rows_colum
                         /* VERTICAL test */
                         if (white_test)
                         {
-                            l = correct_length(rows_columns[n_rows + y], maximum);           // updating l value
-                            white_test = T_v2(n_rows - 1, l, tab, rows_columns[n_rows + y]); // we need + 1 because y counts from 0, so in order to take the correct sequence for the column, we need n_rows + 0 + 1 to be distinguised
+                            l = correct_length(rows_columns[n_rows + y], maximum); // updating l value
+                            white_test = T_v2(n_rows - 1, l, tab, rows_columns[n_rows + y]); 
                         }
 
                         // ==========================
@@ -501,8 +492,8 @@ enum State color_grid_v2(int **grid, int n_rows, int n_columns, int **rows_colum
                         /* VERTICAL test */
                         if (black_test)
                         {
-                            l = correct_length(rows_columns[n_rows + y], maximum);           // updating l value
-                            black_test = T_v2(n_rows - 1, l, tab, rows_columns[n_rows + y]); // we need + 1 because y counts from 0, so in order to take the correct sequence for the column, we need n_rows + 0 + 1 to be distinguised
+                            l = correct_length(rows_columns[n_rows + y], maximum);           
+                            black_test = T_v2(n_rows - 1, l, tab, rows_columns[n_rows + y]); 
                         }
 
                         free(tab);
@@ -515,11 +506,11 @@ enum State color_grid_v2(int **grid, int n_rows, int n_columns, int **rows_colum
                         // ==========================
                         // Decisions and conclusions
                         // ==========================
-                        if (white_test == false)
+                        if (!white_test)
                         {
-                            if (black_test == false)
+                            if (!black_test)
                             {
-                                //printf("\n%d,  %d\n", x, y);
+                                // printf("\n%d,  %d\n", x, y);
                                 return FAIL;
                             }
                             else
@@ -527,9 +518,9 @@ enum State color_grid_v2(int **grid, int n_rows, int n_columns, int **rows_colum
                                 grid[x][y] = BLACK;
                             }
                         }
-                        else if (black_test == false)
+                        else if (!black_test)
                         {
-                            if (white_test == true)
+                            if (white_test)
                             {
                                 grid[x][y] = WHITE;
                             }
@@ -539,7 +530,7 @@ enum State color_grid_v2(int **grid, int n_rows, int n_columns, int **rows_colum
                             }
                         }
                     }
-                    //printing_grid(grid, n_rows, n_columns, 3);
+                    // printing_grid(grid, n_rows, n_columns, 3);
                 }
                 printing_grid(grid, n_rows, n_columns, 3);
             }
@@ -657,7 +648,7 @@ enum State color_grid_v3(int **grid, int n_rows, int n_columns, int **rows_colum
                         {
                             if (black_test == false)
                             {
-                                //printf("\n%d,  %d\n", x, y);
+                                // printf("\n%d,  %d\n", x, y);
                                 return FAIL;
                             }
                             else
@@ -688,7 +679,7 @@ enum State color_grid_v3(int **grid, int n_rows, int n_columns, int **rows_colum
         {
             printing_grid(grid, n_rows, n_columns, 3);
         }
-        
+
         int changes = grid_defaults_count(grid, n_rows, n_columns);
 
         if (changes == last_time && changes == before_last_time)
@@ -696,15 +687,14 @@ enum State color_grid_v3(int **grid, int n_rows, int n_columns, int **rows_colum
             /* It means that there was no change during the last 2 itterations
             of the boucle while, so we need to recalculate  */
 
-            int x_updated = -1;
-            int y_updated;
+            int x_updated, y_updated;
             recalculation(grid, n_rows, n_columns, &x_updated, &y_updated);
 
-            if (color_grid_complet(grid, rows_columns, n_rows, n_columns, x_updated, y_updated, maximum, mode) == 1)
+            if (color_grid_complet(grid, rows_columns, n_rows, n_columns, x_updated, y_updated, maximum, mode) == true)
             {
                 return SUCCESS;
             }
-            result = NO_DECISION; // in order to terminate the while
+            result = NO_DECISION; // in order to terminate the while since no solution was found (partially uncolorised the grid in that case)
         }
         before_last_time = last_time;
         last_time = changes;
