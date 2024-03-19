@@ -148,7 +148,6 @@ int count_black_cells(int *tab, int length, int mode)
 }
 
 /* Completing the colorisation process with recursion */
-// Logic inspired by Manu Guerinel
 int color_grid_complet(int **grid, int **rows_columns, int n_rows, int n_columns, int i, int j, int maximum, int mode)
 {
     /* Making a temporary copy of the grid for returning_back porpuses */
