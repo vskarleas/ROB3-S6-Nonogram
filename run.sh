@@ -4,7 +4,7 @@ GREEN='\033[0;32m'
 BLUE='\033[0;36m'
 PURPLE='\033[1;35m'
 YELLOW='\033[0;33m'
-NORMAL='\033[0m'  # Define NORMAL as reset (in ASNI)
+NORMAL='\033[0m'  # Define NORMAL as reset (in ASNI) 
 
 clear
 

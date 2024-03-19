@@ -2,7 +2,7 @@
 // # File decode.c
 // # UE Infomatics for Robotics - Polytech Sorbonne - 2023/2024 - S6
 // # Authors: Yanis Sadoun, Vasileios Filippos Skarleas - All rights reserved.
-// #############################################################################
+// ############################################################################# 
 
 #include <string.h>
 #include <stdio.h>

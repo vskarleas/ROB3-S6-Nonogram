@@ -2,7 +2,7 @@
 // # File api.c
 // # UE Infomatics for Robotics - Polytech Sorbonne - 2023/2024 - S6
 // # Authors: Yanis Sadoun, Vasileios Filippos Skarleas - All rights reserved.
-// #############################################################################
+// ############################################################################# 
 
 #include <stdlib.h>
 #include <stdio.h>

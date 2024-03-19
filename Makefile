@@ -2,7 +2,7 @@
 # Fichier Makefile 
 # UE Infomatics for Robotics - Polytech Sorbonne - 2023/2024 - S6
 # Author: Vasileios Filippos Skarleas - All rights reserved.
-#############################################################################
+############################################################################# 
 # utilisation des variables internes $@ $< $^ $*
 # $@ : correspond au nom de la cible
 # $< : correspond au nom de la premiere dependance
