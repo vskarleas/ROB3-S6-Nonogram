@@ -31,7 +31,7 @@ else
 
   # Infinite loop with user options
   while true; do
-    echo -e "\n==========================================================\nEnter a command (auto, complet, partial, t_tests, stop):"
+    echo -e "\n==========================================================\nEnter a command (auto, auto_partial, complet, partial, t_tests, stop):"
     read command
 
     case "$command" in
@@ -41,6 +41,10 @@ else
         ;;
       t_tests)
         ./t_tests
+        sleep 4
+        ;;
+      auto_partial)
+        ./automatic_partial
         sleep 4
         ;;
       complet)

@@ -33,7 +33,15 @@ void write_pbm_file(int width, int height, int **array, char *file_name, char *r
     {
         for (int y = 0; y < width; y++)
         {
-            const char pixel = array[x][y] ? '0' : '1'; // Map non-zero values to '0', zero to '1' because that's the format of PBM while respecting the constants.h file
+            char pixel;
+            if (array[x][y] == 0 || array[x][y] == 1)
+            {
+                pixel = array[x][y] ? '0' : '1'; // Map non-zero values to '0', zero to '1' because that's the format of PBM while respecting the constants.h file
+            }
+            else
+            {
+                pixel = '2';
+            }
             fputc(pixel, fp);
         }
         fputc('\n', fp);

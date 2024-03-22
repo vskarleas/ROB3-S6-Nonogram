@@ -321,7 +321,7 @@ bool T_v2(int j, int l, int *tab, int *seq)
 
 /* Coloring the grid following seperate lines and seperates collumns approach */
 // Versions of Algorithm Annexe 1
-//DEPRECATED
+// DEPRECATED
 enum State color_grid_v1(int **main_grid, int n_rows, int n_columns, int **rows, int **columns, int maximum)
 {
     bool response;
@@ -425,16 +425,20 @@ enum State color_grid_v1(int **main_grid, int n_rows, int n_columns, int **rows,
 // After several research on efficient ways to proceed on a pickross solution, the folleoing observations eere essential:
 // - Colorise everythign if you know that this would be the only solution. (ex a line with 0 sequences will be only white. Or even total numher if blacks cells expexted plus minimum one white cell between them - being rqual ti the lime's length, then there can't exist another solution
 // - Force a ceel into a color and see what's the reaction of the solving process as mentioned on Tan Li Hau's blog post
-enum State color_grid_v2(int **grid, int n_rows, int n_columns, int **rows_columns, int maximum)
+enum State color_grid_v2(int **grid, int n_rows, int n_columns, int **rows_columns, int maximum, int mode)
 {
-    // NOTE: x is for horizontal (lines) and y is for vertical (columns) on grid's 2D array
-    while (grid_defaults_count(grid, n_rows, n_columns) != 0)
+    enum State result;
+    result = SUCCESS;                        // status by default. It will be updated accordingly
+    int last_time = 1, before_last_time = 1; // indicators of our not-colourised cells in the puzzle grid in two different times. last_empty happened before after_last_empty in a chronological sequence
+
+    while (last_time > 0 && result == SUCCESS)
     {
         for (int x = 0; x < n_rows; x++)
         {
             // This first test checks whether we need to proceed to line analysis or not.
             //  If the sequence can be applied directly with any cells uncolorised,
             //  then we coulorise them and we move on to the next line
+
             int pre_l = correct_length(rows_columns[x], maximum);
             int nb_blacks = count_black_cells(rows_columns[x], pre_l, 2);
             int nb_whites = pre_l - 1;
@@ -457,16 +461,16 @@ enum State color_grid_v2(int **grid, int n_rows, int n_columns, int **rows_colum
                         // ==========================
                         grid[x][y] = WHITE;
 
-                        // Analysis of the line in question (in parallel of every column for this line [this is done with every change of y])
+                        // Analysis of the line in question (in parallel of every column)
                         int *tab = (int *)malloc(n_rows * sizeof(int)); // The number of rows is the length of the column in question
                         if (tab == NULL)
                         {
                             fprintf(stderr, "\nFailed to allocate memory for tab.\n");
-                            exit(-1);
+                            exit(-2);
                         }
 
-                        // Isolation of the column for the current y
                         column_isolation(grid, y, n_rows, tab);
+                        // print_line(tab, n_rows);
 
                         /* HORIZONTAL test */
                         l = correct_length(rows_columns[x], maximum);
@@ -475,8 +479,8 @@ enum State color_grid_v2(int **grid, int n_rows, int n_columns, int **rows_colum
                         /* VERTICAL test */
                         if (white_test)
                         {
-                            l = correct_length(rows_columns[n_rows + y], maximum); // updating l value
-                            white_test = T_v2(n_rows - 1, l, tab, rows_columns[n_rows + y]); 
+                            l = correct_length(rows_columns[n_rows + y], maximum);
+                            white_test = T_v2(n_rows - 1, l, tab, rows_columns[n_rows + y]);
                         }
 
                         // ==========================
@@ -485,15 +489,25 @@ enum State color_grid_v2(int **grid, int n_rows, int n_columns, int **rows_colum
                         grid[x][y] = BLACK;
                         tab[x] = BLACK; // This step is essential. Previsouly the colourisation in white happened before isolation. Here we have to do it manually because we have already isolated the column
 
+                        // printf("\n");
+                        // print_line(tab, n_rows);
+
                         /* HORIZONTAL test */
                         l = correct_length(rows_columns[x], maximum);
-                        black_test = T_v2(n_columns - 1, l, grid[x], rows_columns[x]);
-
-                        /* VERTICAL test */
-                        if (black_test)
+                        if (l == 0)
                         {
-                            l = correct_length(rows_columns[n_rows + y], maximum);           
-                            black_test = T_v2(n_rows - 1, l, tab, rows_columns[n_rows + y]); 
+                            black_test = false; // We know with certainty that we can't colorise that cell in black because theyre is no sequence. It can be white or nothing but no black
+                        }
+                        else
+                        {
+                            black_test = T_v2(n_columns - 1, l, grid[x], rows_columns[x]); // we need + 1 because x counts from 0, so in
+
+                            /* VERTICAL test */
+                            if (black_test)
+                            {
+                                l = correct_length(rows_columns[n_rows + y], maximum);
+                                black_test = T_v2(n_rows - 1, l, tab, rows_columns[n_rows + y]);
+                            }
                         }
 
                         free(tab);
@@ -506,9 +520,9 @@ enum State color_grid_v2(int **grid, int n_rows, int n_columns, int **rows_colum
                         // ==========================
                         // Decisions and conclusions
                         // ==========================
-                        if (!white_test)
+                        if (white_test == false)
                         {
-                            if (!black_test)
+                            if (black_test == false)
                             {
                                 // printf("\n%d,  %d\n", x, y);
                                 return FAIL;
@@ -518,9 +532,9 @@ enum State color_grid_v2(int **grid, int n_rows, int n_columns, int **rows_colum
                                 grid[x][y] = BLACK;
                             }
                         }
-                        else if (!black_test)
+                        else if (black_test == false)
                         {
-                            if (white_test)
+                            if (white_test == true)
                             {
                                 grid[x][y] = WHITE;
                             }
@@ -529,14 +543,31 @@ enum State color_grid_v2(int **grid, int n_rows, int n_columns, int **rows_colum
                                 return NO_DECISION;
                             }
                         }
+
+                        // printing_grid(grid, n_rows, n_columns, 2);
+                        // printf("\n\n");
                     }
-                    // printing_grid(grid, n_rows, n_columns, 3);
                 }
-                printing_grid(grid, n_rows, n_columns, 3);
             }
         }
+
+        if (mode == 1)
+        {
+            printing_grid(grid, n_rows, n_columns, 3);
+        }
+        
+
+        int changes = grid_defaults_count(grid, n_rows, n_columns);
+
+        if (changes == last_time && changes == before_last_time)
+        {
+            result = NO_DECISION; // in order to terminate the while since no solution was found (partially uncolorised the grid in that case)
+        }
+        before_last_time = last_time;
+        last_time = changes;
     }
 
+    /* Final test that determines if there is a final SUCCESS decision or NO_DECISION because not every cell was colorised */
     if (grid_in_color(grid, n_rows, n_columns))
     {
         return SUCCESS;

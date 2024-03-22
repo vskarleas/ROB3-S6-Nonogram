@@ -130,7 +130,7 @@ int main(int argc, char **argv)
     if (time == 1)
     {
         temps_initial = clock();
-        result = color_grid_v2(grid, n_rows, n_cols, rows_columns, maximum);
+        result = color_grid_v2(grid, n_rows, n_cols, rows_columns, maximum, 1);
         temps_final = clock();
 
         temps_cpu = (temps_final - temps_initial) * 1e-6; // Total time in seconds
@@ -139,7 +139,7 @@ int main(int argc, char **argv)
     }
     else if (time == 2)
     {
-        result = color_grid_v2(grid, n_rows, n_cols, rows_columns, maximum);
+        result = color_grid_v2(grid, n_rows, n_cols, rows_columns, maximum, 1);
         clearScreen();
     }
     else

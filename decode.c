@@ -100,7 +100,7 @@ void read_file(char *filename, int **lines, int **columns, int n_rows, int n_col
 
     if (file == NULL)
     {
-        printf("Erreur lors de l'ouverture du fichier\n");
+        printf("Erreur lors de l'ouverture du fichier DECODE\n");
         return;
     }
 

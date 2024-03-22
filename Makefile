@@ -40,7 +40,7 @@ INCLUDEOPTS = -I$(INCDIR)
 COMPILOPTS = -g -Wall $(INCLUDEOPTS)
 
 # liste des executables
-EXECUTABLES = main complet partial t_tests automatic
+EXECUTABLES = main complet partial t_tests automatic automatic_partial
 
 #############################################################################
 # definition des regles
@@ -126,6 +126,11 @@ partial.o : partial.c utile.h algos.h constants.h decode.h memory.h tables.h ui.
 	@echo "---------------------------------------------"
 	$(CC) -c $(COMPILOPTS) $<
 
+automatic_partial.o : automatic_partial.c utile.h algos.h constants.h decode.h memory.h tables.h ui.h bitmap.h
+	@echo ""
+	@echo "---------------------------------------------"
+	$(CC) -c $(COMPILOPTS) $<
+
 t_tests.o : t_tests.c utile.h algos.h constants.h decode.h memory.h tables.h ui.h bitmap.h
 	@echo ""
 	@echo "---------------------------------------------"
@@ -163,6 +168,13 @@ t_tests : t_tests.o utile.o ui.o tables.o memory.o decode.o api.o algos.o
 	$(CC) $^ $(LDOPTS) -o $@
 
 automatic : automatic.o utile.o ui.o tables.o memory.o decode.o bitmap.o api.o algos.o
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Creation de l'executable "$@
+	@echo "---------------------------------------------"
+	$(CC) $^ $(LDOPTS) -o $@
+
+automatic_partial : automatic_partial.o utile.o ui.o tables.o memory.o decode.o bitmap.o api.o algos.o
 	@echo ""
 	@echo "---------------------------------------------"
 	@echo "Creation de l'executable "$@

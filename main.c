@@ -543,7 +543,7 @@ int main(int argc, char **argv)
         if (time == 1)
         {
             temps_initial = clock();
-            result = color_grid_v2(grid, n_rows, n_cols, rows_columns, maximum);
+            result = color_grid_v2(grid, n_rows, n_cols, rows_columns, maximum, 1);
             temps_final = clock();
 
             temps_cpu = (temps_final - temps_initial) * 1e-6; // Total time in seconds
@@ -552,7 +552,7 @@ int main(int argc, char **argv)
         }
         else if (time == 2)
         {
-            result = color_grid_v2(grid, n_rows, n_cols, rows_columns, maximum);
+            result = color_grid_v2(grid, n_rows, n_cols, rows_columns, maximum,1);
             clearScreen();
         }
         else
@@ -849,7 +849,7 @@ int main(int argc, char **argv)
             float temps_cpu = 0.0;
 
             temps_initial = clock();
-            result = color_grid_v3(grid, n_rows, n_cols, rows_columns, maximum, 0); //mode 0 means that we do not print the evolution of the algorithm
+            result = color_grid_v3(grid, n_rows, n_cols, rows_columns, maximum, 1); //mode 0 means that we do not print the evolution of the algorithm
             temps_final = clock();
 
             temps_cpu = (temps_final - temps_initial) * 1e-6; // Total time in seconds

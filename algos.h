@@ -22,7 +22,7 @@ bool T_v2(int j, int l, int *tab, int *seq);
 enum State color_grid_v1(int **main_grid, int n_rows, int n_columns, int **rows, int **columns, int maximum);
 
 /* Coloring the grid and making decisions */
-enum State color_grid_v2(int **grid, int n_rows, int n_columns, int **rows_columns, int maximum);
+enum State color_grid_v2(int **grid, int n_rows, int n_columns, int **rows_columns, int maximum, int mode);
 
 /* Final version that colourises and calls recursivly in order to examine all the possible cases */
 /* NOTA BENE: Same logic with v2 but more elaborated */
