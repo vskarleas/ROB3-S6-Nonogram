@@ -883,10 +883,6 @@ Vous trouverez ci-dessous la définition et l'explication des codes de sortie de
 
 Durant le développement et l'élaboration de stratégies pour les différentes méthodes de résolution du jeu, plusieurs difficultés ont été identifiées :
 
-## Difficultés et problèmes rencontrés
-
-Durant le développement et l'élaboration de stratégies pour les différentes méthodes de résolution du jeu, plusieurs difficultés ont été identifiées :
-
 1. **Amélioration de la fonction (T(j, l)) :** Afin qu'elle réponde correctement à tous les scénarios envisageables. Des tests individuels et précis ont permis de détecter et de corriger les erreurs dans différentes itérations.Par exemple, voici comment on a procedé:
    ![1710882802914](image/READMEcopy/1710882802914.png)
 
