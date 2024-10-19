@@ -927,4 +927,4 @@ Actuellement, notre programme utilise une interface en ligne de commande. Cepend
 
 ## Copyright
 
-###### Yanis Sadoun, Vasileios Filippos Skarleas | 2023 - 2024 All rights reserved
+###### Yanis Sadoun, Vasileios Filippos Skarleas | 2023 - 2024 All rights reserved.
